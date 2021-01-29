@@ -1,0 +1,32 @@
+specVersion: "1.0"
+metadata:
+  name: ns.mitigations
+type: application
+ui5Theme: sap_fiori_3
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: http://localhost:4004/service/risk
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+          version: ""
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+    - name: ui5-middleware-livereload
+      afterMiddleware: compression
+      configuration:
+        debug: true
+        ext: "xml,json,properties"
+        port: 35729
+        path: "webapp"
